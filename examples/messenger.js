@@ -111,14 +111,14 @@ const findOrCreateSession = (fbid) => {
 
 // Our bot actions
 const actions = {
-  say: (sessionId, msg, cb) => {
+  say: (sessionId, context, message, cb) => {
     // Our bot has something to say!
     // Let's retrieve the Facebook user whose session belongs to
     const recipientId = sessions[sessionId].fbid;
     if (recipientId) {
       // Yay, we found our recipient!
       // Let's forward our bot response to her.
-      fbMessage(recipientId, msg, (err, data) => {
+      fbMessage(recipientId, message, (err, data) => {
         if (err) {
           console.log(
             'Oops! An error occurred while forwarding the response to',
@@ -137,11 +137,11 @@ const actions = {
       cb();
     }
   },
-  merge: (context, entities, cb) => {
+  merge: (sessionId, context, entities, message, cb) => {
     cb(context);
   },
-  error: (sessionid, msg) => {
-    console.log('Oops, I don\'t know what to do.');
+  error: (sessionId, context, error) => {
+    console.log(error.message);
   },
   // You should implement your custom actions here
   // See https://wit.ai/docs/quickstart

@@ -12,16 +12,10 @@ npm install --save node-wit
 
 ## Quickstart
 
-Copy `examples/template.js` to `app.js`:
+Run in your terminal:
 
 ```bash
-cp examples/template.js app.js
-```
-
-Then run in your terminal:
-
-```bash
-node app.js
+node examples/template.js <your_token>
 ```
 
 See `examples` folder for more examples.
@@ -49,20 +43,21 @@ You need to provide at least an implementation for the special actions `say`, `m
 A minimal `actions` object looks like this:
 ```js
 const actions = {
-  say: (sessionId, msg, cb) => {
-    console.log(msg);
+  say: (sessionId, context, message, cb) => {
+    console.log(message);
     cb();
   },
-  merge: (context, entities, cb) => {
+  merge: (sessionId, context, entities, message, cb) => {
     cb(context);
   },
-  error: (sessionid, msg) => {
-    console.log('Oops, I don\'t know what to do.');
+  error: (sessionId, context, error) => {
+    console.log(error.message);
   },
 };
 ```
 
-A custom action takes two parameters:
+A custom action takes the following parameters:
+* `sessionId` - a unique identifier describing the user session
 * `context` - the object representing the session state
 * `cb(context)` - a callback function to fire at the end of your action with the updated context.
 

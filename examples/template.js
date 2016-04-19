@@ -13,15 +13,15 @@ const token = (() => {
 })();
 
 const actions = {
-  say: (sessionId, msg, cb) => {
-    console.log(msg);
+  say: (sessionId, context, message, cb) => {
+    console.log(message);
     cb();
   },
-  merge: (context, entities, cb) => {
+  merge: (sessionId, context, entities, message, cb) => {
     cb(context);
   },
-  error: (sessionid, msg) => {
-    console.log('Oops, I don\'t know what to do.');
+  error: (sessionId, context, err) => {
+    console.log(err.message);
   },
 };
 
